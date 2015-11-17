@@ -1,0 +1,18 @@
+# Javascript-For-Images
+The following codes deepen red color for images.
+The exercise comes from Programming and Web for Beginners on Coursera.
+
+function moreRed(pixel, value) {
+    var red = pixel.getRed();
+    if (red+value > 255) {
+        pixel.setRed(255);
+    }
+    pixel.setRed(red+value);
+}
+
+var image = new SimpleImage("usain.jpg");
+for (var pixel of image.values()) {
+    pixel = moreRed(pixel);
+}
+
+print(image);
