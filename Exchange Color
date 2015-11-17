@@ -1,0 +1,26 @@
+# Javascript-For-Images
+The following codes exchange red and green colors of images.
+The exercise comes from Programming and Web for Beginners on Coursera.
+
+function swapRedGreen(pixel) {
+    var green = pixel.getGreen();
+    var red = pixel.getRed();
+    pixel.setGreen(red);
+    pixel.setRed(green);
+    return pixel;
+}
+
+function moreRed(pixel, value) {
+    var red = pixel.getRed();
+    if (red+value > 255) {
+        pixel.setRed(255);
+    }
+    pixel.setRed(red+value);
+}
+
+var image = new SimpleImage("hippieflower.jpg");
+for (var pixel of image.values()) {
+    pixel = swapRedGreen(pixel);
+}
+
+print(image);
