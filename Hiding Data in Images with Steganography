@@ -82,8 +82,8 @@ function combine(image1, image2) {
     return newimage;
 }
 
-var start = new SimpleImage("duvall.jpg")
-var hide = new SimpleImage("lion.jpg")
+var start = new SimpleImage("duvall.jpg");
+var hide = new SimpleImage("lion.jpg");
 print("Size of Start is:");
 print(start.getWidth(),start.getHeight());
 print("Size of Hide is:");
