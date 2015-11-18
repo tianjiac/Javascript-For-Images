@@ -115,6 +115,14 @@ function binarytodecimal(string) {
     return decimal;
 }
 
+
+// or: another simple method without decimaltobinary(), transfer(), binarytodecimal()
+
+//function extract(num) {
+//    num = (num - ( Math.floor(num /16) * 16)) * 16;
+//    return num;
+//}
+
 var start = new SimpleImage("duvall.jpg");
 var hide = new SimpleImage("lion.jpg");
 start = crop(start, 200, 300);
