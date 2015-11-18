@@ -1,0 +1,33 @@
+# Javascript-For-Images
+The following codes duplicate image into n*n space.
+The exercise comes from Programming and Web for Beginners on Coursera.
+
+
+function duplicate(image, number) {
+    
+    var image1 = new SimpleImage(image.getWidth()*number, image.getHeight()*number);
+    for (var px of image1.values()) {
+        var x = px.getX();
+        var y = px.getY();
+        if (x < image.getWidth() & y < image.getHeight()) {
+            image1.setPixel(x, y, image.getPixel(x, y));
+        }
+        if (x >= image.getWidth() & y < image.getHeight()) {
+            image1.setPixel(x, y, image.getPixel(x - image.getWidth(), y));
+        }
+        if (x >= image.getWidth() & y >= image.getHeight()) {
+            image1.setPixel(x, y, image.getPixel(x - image.getWidth(), 
+                                                 y - image.getHeight()));
+        }
+        if (x < image.getWidth() & y >= image.getHeight()) {
+            image1.setPixel(x, y, image.getPixel(x, y - image.getHeight()));
+        }
+    }
+    return image1;
+}
+
+
+var image = new SimpleImage("eastereggs.jpg");
+print(image);
+image = duplicate(image, 2);
+print(image);
