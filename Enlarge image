@@ -1,0 +1,21 @@
+# Javascript-For-Images
+The following codes enlarge an image by *multiple* times.
+The exercise comes from Programming and Web for Beginners on Coursera.
+
+function enlarge(image, multiple) {
+    var image1 = new SimpleImage(image.getWidth()*multiple, image.getHeight()*multiple);
+    for (var px of image1.values()) {
+        x = px.getX();
+        y = px.getY();
+        newx = Math.floor(x/multiple);
+        newy = Math.floor(y/multiple);
+        image1.setPixel(x, y, image.getPixel(newx, newy));
+    }
+    return image1;
+}
+
+
+var image = new SimpleImage("eastereggs.jpg");
+print(image);
+image = enlarge(image, 3);
+print(image);
