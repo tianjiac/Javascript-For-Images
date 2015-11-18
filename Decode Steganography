@@ -1,0 +1,129 @@
+# Javascript-For-Images
+The following codes extract image from steganography.
+  Decode method: Work an example with one pixel. Suppose the red value of a pixel is 203. 
+  Convert that number to binary. 203 is 128 + 64 + 8 + 2 + 1 = 11001011 in binary. 
+  Move the lower four bits, 1011, to the upper four bits and clear out the lower four bits, to 10110000. 
+  Transform 10110000 into decimal number as the value for that pixel.
+The exercise comes from Programming and Web for Beginners on Coursera.
+
+
+// crop the image
+function crop(image, width, height) {
+    var newimage = new SimpleImage(width, height);
+    var xcenter = image.getWidth()/2;
+    var ycenter = image.getHeight()/2;
+    var leftbound = xcenter - width/2;
+    var rightbound = xcenter + width/2;
+    var bottombound = ycenter - height/2;
+    var topbound = ycenter + height/2;
+    for (var pixel of image.values()) {
+        var x = pixel.getX();
+        var y = pixel.getY();
+        if (x <= rightbound && x > leftbound && y > bottombound && y <= topbound) {
+            newimage.setPixel(x-leftbound-1, y-bottombound-1, pixel);
+        }
+    }
+    return newimage;
+}
+
+// Get the first 4 bites of RGB in image1 that will store the data.
+function changepixel(value, rule) {
+    var newvalue = Math.floor(value/rule)*rule;
+    return newvalue;
+}
+
+function first(image, rule) {
+    for (var pixel of image.values()) {
+        pixel.setRed(changepixel(pixel.getRed(), rule));
+        pixel.setGreen(changepixel(pixel.getGreen(), rule));
+        pixel.setBlue(changepixel(pixel.getBlue(), rule));
+    }
+    return image;
+}
+
+// Get the first 4 bites of RGB in image1 that data are extracted, and put them into second half of 8 bites of image2.
+function second(image, rule) {
+    for (var pixel of image.values()) {
+    pixel.setRed(Math.floor(pixel.getRed()/rule));
+    pixel.setGreen(Math.floor(pixel.getGreen()/rule));
+    pixel.setBlue(Math.floor(pixel.getBlue()/rule));
+    }
+    return image;
+}
+
+// Combine 4 bites from image1 and 4 bites from image2.
+function combine(image1, image2) {
+    var newimage = new SimpleImage(image1.getWidth(), image1.getHeight());
+    for (var pixel of image1.values()) {
+        var x = pixel.getX();
+        var y = pixel.getY();
+        var px = image2.getPixel(x, y);
+        var pxnew = newimage.getPixel(x, y);
+        if ((pixel.getRed()+px.getRed()) < 255) {
+            pxnew.setRed(pixel.getRed()+px.getRed());
+        }
+        else {
+            print("Combined Red value too large!");
+        }
+        if ((pixel.getGreen()+px.getGreen()) < 255) {
+            pxnew.setGreen(pixel.getGreen()+px.getGreen());
+        }
+        else {
+            print("Combined Green value too large!");
+        }
+        if ((pixel.getBlue()+px.getBlue()) < 255) {
+            pxnew.setBlue(pixel.getBlue()+px.getBlue());
+        }
+        else {
+            print("Combined Blue value too large!");
+        }
+    }
+    return newimage;
+}
+
+// Change decimal to binary number.
+function decimaltobinary(number) {
+    var binary = "";
+    var remainder = 0;
+    var dividend = 1;
+    while (dividend !== 0) {
+        remainder = number % 2;
+        remainder = remainder.toString();
+        dividend = parseInt(number/2);
+        number = dividend;
+        binary = binary.concat(remainder);
+    }
+    binary = binary.split("").reverse().join("");
+    return binary;
+}
+
+// inverse binary series.
+function transfer(string) {
+    var str = string.substr(-4,4);
+    var str = str.concat("0000");
+    return str;
+}
+
+// change binary series into decimal.
+function binarytodecimal(string) {
+    var decimal = 0;
+    var n = string.length;
+    for (i = 1; i <=n; i++) {
+        var num = Number(string.substr(i-1,1));
+        decimal = decimal + num * Math.pow(2, n-i);
+    }
+    return decimal;
+}
+
+var start = new SimpleImage("duvall.jpg");
+var hide = new SimpleImage("lion.jpg");
+start = crop(start, 200, 300);
+hide = crop(hide, 200, 300);
+var newimage = combine(first(start,16), second(hide,16));
+print(newimage);
+for (var px of newimage.values()) {
+    px.setRed(binarytodecimal(transfer(decimaltobinary(px.getRed()))));
+    px.setBlue(binarytodecimal(transfer(decimaltobinary(px.getBlue()))));
+    px.setGreen(binarytodecimal(transfer(decimaltobinary(px.getGreen()))));
+}
+print(newimage);
