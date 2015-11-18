@@ -24,7 +24,7 @@ function crop(image, width, height) {
             newimage.setPixel(x-leftbound-1, y-bottombound-1, pixel);
         }
     }
-    print(newimage);
+    return newimage;
 }
 
 // Get the first 4 bites of RGB in image1 that will store the data.
@@ -89,5 +89,7 @@ print(start.getWidth(),start.getHeight());
 print("Size of Hide is:");
 print(hide.getWidth(),hide.getHeight());
 
-var newimage = combine(first(start, 16), second(hide, 16));
+start = crop(start, 200, 300);
+hide = crop(hide, 200, 300);
+var newimage = combine(first(start,16), second(hide,16));
 print(newimage);
