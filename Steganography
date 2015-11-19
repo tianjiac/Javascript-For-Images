@@ -1,9 +1,5 @@
 # Javascript-For-Images
-The following codes extract image from steganography.
-  Decode method: Work an example with one pixel. Suppose the red value of a pixel is 203. 
-  Convert that number to binary. 203 is 128 + 64 + 8 + 2 + 1 = 11001011 in binary. 
-  Move the lower four bits, 1011, to the upper four bits and clear out the lower four bits, to 10110000. 
-  Transform 10110000 into decimal number as the value for that pixel.
+The following codes encode and decode images as steganography using n bits.
 The exercise comes from Programming and Web for Beginners on Coursera.
 
 // crop the image
@@ -68,6 +64,7 @@ function binarytodecimal(string) {
     return decimal;
 }
 
+// Encode image.
 function combine(string1, string2, n) {
     var str = string1.substr(0, 8-n).concat(string2.substr(0, n));
     return str;
@@ -75,6 +72,7 @@ function combine(string1, string2, n) {
 
 
 // or: another simple method without decimaltobinary(), transfer(), binarytodecimal()
+// when n = 4 bites.
 
 //function extract(num) {
 //    num = (num - ( Math.floor(num /16) * 16)) * 16;
