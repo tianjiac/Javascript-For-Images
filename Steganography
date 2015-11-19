@@ -81,6 +81,7 @@ function combine(string1, string2, n) {
 //    return num;
 //}
 
+// Encode with 2 bits.
 var n = 2;
 var start = new SimpleImage("duvall.jpg");
 var hide = new SimpleImage("lion.jpg");
@@ -109,6 +110,7 @@ for (var px of start.values()) {
 
 print(newimage);
 
+// Decode.
 for (var px of newimage.values()) {
     px.setRed(binarytodecimal(transfer(decimaltobinary(px.getRed()), n)));
     px.setBlue(binarytodecimal(transfer(decimaltobinary(px.getBlue()), n)));
